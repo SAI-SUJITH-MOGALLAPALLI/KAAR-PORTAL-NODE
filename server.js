@@ -812,15 +812,16 @@ app.use(function(req, res, next) {
     );
  
  })
- app.get("/vendor-login", function (req, res) {
-    // uname=req.body.uname;
+ app.post("/vendor-login", function (req, res) {
+    uname=req.body.uname;
+    pwd=req.body.pwd;
     const postData = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:sap-com:document:sap:rfc:functions">
      <soapenv:Header/>
      <soapenv:Body>
         <urn:Z_FM_VENDOR_LOGIN_SUJ>
            <!--You may enter the following 2 items in any order-->
-           <I_PASSWORD>SAISUJITH</I_PASSWORD>
-           <I_USERNAME>SA1000</I_USERNAME>
+           <I_PASSWORD>`+pwd+`</I_PASSWORD>
+           <I_USERNAME>`+uname+`</I_USERNAME>
         </urn:Z_FM_VENDOR_LOGIN_SUJ>
      </soapenv:Body>
   </soapenv:Envelope>`;
@@ -836,19 +837,19 @@ app.use(function(req, res, next) {
        if (!error && response.statusCode == 200) {
           var result1 = parser.xml2json(body, { compact: true, spaces: 4 });
           result1 = JSON.parse(result1);
-          res.send(result1['SOAP:Envelope']['SOAP:Body']['ns0:Z_FM_VENDOR_LOGIN_SUJ.Response']);
+          res.send(result1);
        }
     }
     );
  })
- app.get("/vendor-quotation", function (req, res) {
-    // uname=req.body.uname;
+ app.post("/vendor-quotation", function (req, res) {
+    uname=req.body.uname;
     const postData = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:sap-com:document:sap:rfc:functions">
      <soapenv:Header/>
      <soapenv:Body>
         <urn:Z_FM_VENDOR_REQ_QUOTATION_SUJ>
            <!--You may enter the following 3 items in any order-->
-           <I_VENDORID>SA1000</I_VENDORID>
+           <I_VENDORID>`+uname+`</I_VENDORID>
            <IT_HEADER_RFQ_T>
               <!--Zero or more repetitions:-->
               <item>
@@ -1379,19 +1380,19 @@ app.use(function(req, res, next) {
        if (!error && response.statusCode == 200) {
           var result1 = parser.xml2json(body, { compact: true, spaces: 4 });
           result1 = JSON.parse(result1);
-          res.send(result1['SOAP:Envelope']['SOAP:Body']['ns0:Z_FM_VENDOR_REQ_QUOTATION_SUJ.Response']);
+          res.send(result1);
        }
     }
     );
  })
- app.get("/vendor-purchaseorder", function (req, res) {
-    // uname=req.body.uname;
+ app.post("/vendor-purchaseorder", function (req, res) {
+    uname=req.body.uname;
     const postData = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:sap-com:document:sap:rfc:functions">
      <soapenv:Header/>
      <soapenv:Body>
         <urn:Z_FM_VENDOR_PURCHASE_ORDER_SUJ>
            <!--You may enter the following 4 items in any order-->
-           <I_VENDORID>SA1000</I_VENDORID>
+           <I_VENDORID>`+uname+`</I_VENDORID>
            <IT_HEADER_PO_T>
               <!--Zero or more repetitions:-->
               <item>
@@ -1950,35 +1951,45 @@ app.use(function(req, res, next) {
        if (!error && response.statusCode == 200) {
           var result1 = parser.xml2json(body, { compact: true, spaces: 4 });
           result1 = JSON.parse(result1);
-          res.send(result1['SOAP:Envelope']['SOAP:Body']['ns0:Z_FM_VENDOR_PURCHASE_ORDER_SUJ.Response']);
+          res.send(result1);
        }
     }
     );
  })
- app.get("/vendor-profileupdate", function (req, res) {
+ app.post("/vendor-profileupdate", function (req, res) {
     // uname=req.body.uname;
+    id=req.body.id;
+   district=req.body.district;
+   address=req.body.address;
+   uname=req.body.uname;
+   fname=req.body.fname;
+   lname=req.body.lname;
+   city=req.body.city;
+   mobile=req.body.mobile;
+   country=req.body.country;
+   pincode=req.body.pincode;
     const postData = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:sap-com:document:sap:rfc:functions">
      <soapenv:Header/>
      <soapenv:Body>
         <urn:Z_FM_VENDOR_DETAILS_UPDATE_SUJ>
            <!--You may enter the following 9 items in any order-->
            <!--Optional:-->
-           <I_ADDRESS>ADD1</I_ADDRESS>
+           <I_ADDRESS>`+address+`</I_ADDRESS>
            <!--Optional:-->
-           <I_CITY>CITY</I_CITY>
+           <I_CITY>`+city+`</I_CITY>
            <!--Optional:-->
-           <I_COUNTRY>COUNTRY</I_COUNTRY>
+           <I_COUNTRY>`+country+`</I_COUNTRY>
            <!--Optional:-->
-           <I_DISTRICT>DIST</I_DISTRICT>
+           <I_DISTRICT>`+district+`</I_DISTRICT>
            <!--Optional:-->
-           <I_FNAME>FNAME</I_FNAME>
+           <I_FNAME>`+fname+`</I_FNAME>
            <!--Optional:-->
-           <I_LNAME>LNAME</I_LNAME>
+           <I_LNAME>`+lname+`</I_LNAME>
            <!--Optional:-->
-           <I_PINCODE>524315</I_PINCODE>
+           <I_PINCODE>`+pincode+`</I_PINCODE>
            <!--Optional:-->
-           <I_TELEPHONE>9999999</I_TELEPHONE>
-           <I_VENDORID>SA1000</I_VENDORID>
+           <I_TELEPHONE>`+mobile+`</I_TELEPHONE>
+           <I_VENDORID>`+id+`</I_VENDORID>
         </urn:Z_FM_VENDOR_DETAILS_UPDATE_SUJ>
      </soapenv:Body>
   </soapenv:Envelope>`;
@@ -1994,18 +2005,18 @@ app.use(function(req, res, next) {
        if (!error && response.statusCode == 200) {
           var result1 = parser.xml2json(body, { compact: true, spaces: 4 });
           result1 = JSON.parse(result1);
-          res.send(result1['SOAP:Envelope']['SOAP:Body']['ns0:Z_FM_VENDOR_DETAILS_UPDATE_SUJ.Response']);
+          res.send(result1);
        }
     }
     );
  })
- app.get("/vendor-profiledetail", function (req, res) {
-    // uname=req.body.uname;
+ app.post("/vendor-profiledetail", function (req, res) {
+    uname=req.body.uname;
     const postData = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:sap-com:document:sap:rfc:functions">
      <soapenv:Header/>
      <soapenv:Body>
         <urn:Z_FM_VENDOR_DETAILS_SUJ>
-           <I_VENDORID>SA1000</I_VENDORID>
+           <I_VENDORID>`+uname+`</I_VENDORID>
         </urn:Z_FM_VENDOR_DETAILS_SUJ>
      </soapenv:Body>
   </soapenv:Envelope>`;
@@ -2021,19 +2032,19 @@ app.use(function(req, res, next) {
        if (!error && response.statusCode == 200) {
           var result1 = parser.xml2json(body, { compact: true, spaces: 4 });
           result1 = JSON.parse(result1);
-          res.send(result1['SOAP:Envelope']['SOAP:Body']['ns0:Z_FM_VENDOR_DETAILS_SUJ.Response']);
+          res.send(result1);
        }
     }
     );
  })
- app.get("/vendor-paymentaging", function (req, res) {
-    // uname=req.body.uname;
+ app.post("/vendor-paymentaging", function (req, res) {
+    uname=req.body.uname;
     const postData = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:sap-com:document:sap:rfc:functions">
      <soapenv:Header/>
      <soapenv:Body>
         <urn:Z_FM_VENDOR_PAYMENT_AGING_SUJ>
            <!--You may enter the following 2 items in any order-->
-           <I_VENDORID>SA1000</I_VENDORID>
+           <I_VENDORID>`+uname+`</I_VENDORID>
            <IT_OUTPUT_T>
               <!--Zero or more repetitions:-->
               <item>
@@ -2284,19 +2295,19 @@ app.use(function(req, res, next) {
        if (!error && response.statusCode == 200) {
           var result1 = parser.xml2json(body, { compact: true, spaces: 4 });
           result1 = JSON.parse(result1);
-          res.send(result1['SOAP:Envelope']['SOAP:Body']['ns0:Z_FM_VENDOR_PAYMENT_AGING_SUJ.Response']);
+          res.send(result1);
        }
     }
     );
  })
- app.get("/vendor-goodsreceipt", function (req, res) {
-    // uname=req.body.uname;
+ app.post("/vendor-goodsreceipt", function (req, res) {
+    uname=req.body.uname;
     const postData = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:sap-com:document:sap:rfc:functions">
      <soapenv:Header/>
      <soapenv:Body>
         <urn:Z_FM_VENDOR_GOODS_RECEIPT_SUJ>
            <!--You may enter the following 5 items in any order-->
-           <I_VENDORID>SA1000</I_VENDORID>
+           <I_VENDORID>`+uname+`</I_VENDORID>
            <IT_HEADER_GR_T>
               <!--Zero or more repetitions:-->
               <item>
@@ -2584,19 +2595,19 @@ app.use(function(req, res, next) {
        if (!error && response.statusCode == 200) {
           var result1 = parser.xml2json(body, { compact: true, spaces: 4 });
           result1 = JSON.parse(result1);
-          res.send(result1['SOAP:Envelope']['SOAP:Body']['ns0:Z_FM_VENDOR_GOODS_RECEIPT_SUJ.Response']);
+          res.send(result1);
        }
     }
     );
  })
- app.get("/vendor-debit", function (req, res) {
-    // uname=req.body.uname;
+ app.post("/vendor-debit", function (req, res) {
+    uname=req.body.uname;
     const postData = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:sap-com:document:sap:rfc:functions">
      <soapenv:Header/>
      <soapenv:Body>
         <urn:Z_FM_VENDOR_DEBIT_SUJ>
            <!--You may enter the following 2 items in any order-->
-           <I_VENDORID>SA1000</I_VENDORID>
+           <I_VENDORID>`+uname+`</I_VENDORID>
            <IT_DEBIT_T>
               <!--Zero or more repetitions:-->
               <item>
@@ -2637,19 +2648,85 @@ app.use(function(req, res, next) {
        if (!error && response.statusCode == 200) {
           var result1 = parser.xml2json(body, { compact: true, spaces: 4 });
           result1 = JSON.parse(result1);
-          res.send(result1['SOAP:Envelope']['SOAP:Body']['ns0:Z_FM_VENDOR_DEBIT_SUJ.Response']);
+          res.send(result1);
        }
     }
     );
  })
- app.get("/vendor-credit", function (req, res) {
-    // uname=req.body.uname;
+ app.post("/vendor-invoice", function (req, res) {
+   uname=req.body.uname;
+   invoiceNumber=req.body.invoiceNumber;
+   year=req.body.year;
+   // 5105600761
+   const postData = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:sap-com:document:sap:rfc:functions">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <urn:ZFI_VENDOR_CALL_INVOICE_SUJ>
+         <!--You may enter the following 4 items in any order-->
+         <I_INVOICE_NO>`+invoiceNumber+`</I_INVOICE_NO>
+         <I_VENDOR_ID>`+uname+`</I_VENDOR_ID>
+         <I_YEAR>`+year+`</I_YEAR>
+         <RETURN>
+            <!--Zero or more repetitions:-->
+            <item>
+               <!--Optional:-->
+               <TYPE></TYPE>
+               <!--Optional:-->
+               <ID></ID>
+               <!--Optional:-->
+               <NUMBER></NUMBER>
+               <!--Optional:-->
+               <MESSAGE></MESSAGE>
+               <!--Optional:-->
+               <LOG_NO></LOG_NO>
+               <!--Optional:-->
+               <LOG_MSG_NO></LOG_MSG_NO>
+               <!--Optional:-->
+               <MESSAGE_V1></MESSAGE_V1>
+               <!--Optional:-->
+               <MESSAGE_V2></MESSAGE_V2>
+               <!--Optional:-->
+               <MESSAGE_V3></MESSAGE_V3>
+               <!--Optional:-->
+               <MESSAGE_V4></MESSAGE_V4>
+               <!--Optional:-->
+               <PARAMETER></PARAMETER>
+               <!--Optional:-->
+               <ROW></ROW>
+               <!--Optional:-->
+               <FIELD></FIELD>
+               <!--Optional:-->
+               <SYSTEM></SYSTEM>
+            </item>
+         </RETURN>
+      </urn:ZFI_VENDOR_CALL_INVOICE_SUJ>
+   </soapenv:Body>
+</soapenv:Envelope>`;
+   var options = {
+      url: 'http://dxktpipo.kaarcloud.com:50000/XISOAPAdapter/MessageServlet?senderParty=&senderService=BC_SUJ_CUSTOMER_PORTAL&receiverParty=&receiverService=&interface=SI_VENDOR_INVOICE_CALL&interfaceNamespace=http://sujithvendorportal.com',
+      headers: {
+         'Content-Type': 'application/xml',
+         'Authorization': 'Basic UE9VU0VSOlRlY2hAMjAyMQ=='
+      },
+      body: postData
+   }
+   request.post(options, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+         var result1 = parser.xml2json(body, { compact: true, spaces: 4 });
+         result1 = JSON.parse(result1);
+         res.send(result1);
+      }
+   }
+   );
+})
+ app.post("/vendor-credit", function (req, res) {
+    uname=req.body.uname;
     const postData = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:sap-com:document:sap:rfc:functions">
      <soapenv:Header/>
      <soapenv:Body>
         <urn:Z_FM_VENDOR_CREDIT_SUJ>
            <!--You may enter the following 2 items in any order-->
-           <I_VENDORID>SA1000</I_VENDORID>
+           <I_VENDORID>`+uname+`</I_VENDORID>
            <IT_CREDIT_T>
               <!--Zero or more repetitions:-->
               <item>
@@ -2690,7 +2767,7 @@ app.use(function(req, res, next) {
        if (!error && response.statusCode == 200) {
           var result1 = parser.xml2json(body, { compact: true, spaces: 4 });
           result1 = JSON.parse(result1);
-          res.send(result1['SOAP:Envelope']['SOAP:Body']['ns0:Z_FM_VENDOR_CREDIT_SUJ.Response']);
+          res.send(result1);
        }
     }
     );
